@@ -15,6 +15,9 @@ public class PersonBuilder {
     }
 
     public PersonBuilder setAge(int age) {
+        if (age < 0 || age > 100) {
+            throw new IllegalStateException("Возраст введен некорректно!");
+        }
         this.age = age;
         return this;
     }
@@ -25,12 +28,14 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        Person person = new Person(name, surname, age);
-        if (age < 0) {
-            throw new IllegalStateException("Возраст введен некорректно!");
-        }
+        Person person;
         if (name == null || surname == null) {
             throw new IllegalStateException("Не все данные были представлены!");
+        }
+        if (age != -1) {
+            person = new Person(name, surname, age);
+        } else {
+            person = new Person(name, surname);
         }
         if (address != null) {
             person.setAddress(address);
